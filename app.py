@@ -6,12 +6,16 @@ app = Flask(__name__)
 def index():
     return jsonify({'message': 'Welcome to the webhook API!'}), 200
 
-@app.route('/webhook/callback', methods=['POST'])
+@app.route('/webhook/callback', methods=['GET', 'POST'])
 def webhook():
-    event = request.json
-    print('Received webhook:', event)
+    if request.method == 'POST':
+        event = request.json
+        print('Received webhook (POST):', event)
+        return jsonify({'message': 'Webhook received via POST'}), 200
+    elif request.method == 'GET':
+        print('Received webhook (GET)')
+        return jsonify({'message': 'Webhook received via GET'}), 200
 
-    return jsonify({'message': 'Webhook received'}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
