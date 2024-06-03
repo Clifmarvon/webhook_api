@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from functions.setSubscriptions import setNewSubscription
+
 app = Flask(__name__)
 
 
@@ -7,7 +8,6 @@ app = Flask(__name__)
 def index():
     return jsonify({'message': 'Welcome to the webhook API!'}), 200
 
-   
 @app.route('/webhook/callback/<string:uid>/<string:newSub>/<string:period>', methods=['GET', 'POST'])
 def webhook(uid, newSub,period):
 
@@ -38,5 +38,5 @@ def webhook(uid, newSub,period):
         return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=5000)
-    app.run(debug=True, port=500)
+    app.run(host='0.0.0.0', port=5000)
+    # app.run(debug=True, port=500)
