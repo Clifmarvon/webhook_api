@@ -1,12 +1,17 @@
 from flask import Flask, request, jsonify
 from functions.setSubscriptions import setNewSubscription
-
+from functions.timeManagement import fetch_time
 app = Flask(__name__)
 
 
 @app.route('/', methods=['GET'])
 def index():
     return jsonify({'message': 'Welcome to the webhook API!'}), 200
+
+@app.route('/time',methods=['GET'])
+def getTime():
+    timeData =  fetch_time()
+    return jsonify(timeData),200
 
 @app.route('/webhook/callback/<string:uid>/<string:newSub>/<string:period>', methods=['GET', 'POST'])
 def webhook(uid, newSub,period):

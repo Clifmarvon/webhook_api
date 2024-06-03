@@ -1,6 +1,5 @@
 from functions.firebaseInit import initFirebase
 from firebase_admin import firestore
-from flask import jsonify
 
 from functions.timeManagement import fetch_time
 
