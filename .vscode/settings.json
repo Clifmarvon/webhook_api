@@ -1,7 +1,9 @@
 {
-    "cSpell.words": [
-        "digestmod",
-        "jsonify",
-        "paystack"
-    ]
+  "cSpell.words": [
+    "dateutil",
+    "digestmod",
+    "jsonify",
+    "paystack",
+    "relativedelta"
+  ]
 }

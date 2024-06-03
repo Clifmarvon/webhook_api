@@ -7,8 +7,9 @@ app = Flask(__name__)
 def index():
     return jsonify({'message': 'Welcome to the webhook API!'}), 200
 
-@app.route('/webhook/callback/<string:uid>/<string:newSub>', methods=['GET', 'POST'])
-def webhook(uid, newSub):
+   
+@app.route('/webhook/callback/<string:uid>/<string:newSub>/<string:period>', methods=['GET', 'POST'])
+def webhook(uid, newSub,period):
 
     try:
         
@@ -26,7 +27,7 @@ def webhook(uid, newSub):
 
         elif request.method == 'GET':
             print(f'Received webhook (GET) for user ID {uid} with new subscription {newSub}')
-            result = setNewSubscription(userId=uid, newSubscription=newSub)
+            result = setNewSubscription(userId=uid, newSubscription=newSub,period=period)
             return jsonify({'message': 'Webhook received via GET','result':result}), 200
 
     except ValueError as ve:
@@ -37,4 +38,5 @@ def webhook(uid, newSub):
         return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    # app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True, port=500)

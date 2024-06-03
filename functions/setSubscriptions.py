@@ -2,20 +2,29 @@ from functions.firebaseInit import initFirebase
 from firebase_admin import firestore
 from flask import jsonify
 
-# Initialize Firebase and Firestore
+from functions.timeManagement import fetch_time
+
+
 initFirebase()
 db = firestore.client()
 userRef = db.collection('users')
 subscriptionRef = db.collection('admin').document("subscription")
 
-def setNewSubscription(userId, newSubscription):
+def setNewSubscription(userId, newSubscription,period):
     try:
         userDoc = userRef.document(userId).get()
         if not userDoc.exists:
             raise ValueError(f"User ID {userId} does not exist")
 
         subscribed = userDoc.to_dict().get("subscription")
-        userRef.document(userId).update({"subscription": newSubscription})
+        timeData = fetch_time()
+       
+        userRef.document(userId).update({"subscription": {
+            "subscribed":newSubscription,
+            "startingDate":timeData["current_time"],
+            "endingDate":timeData[period],
+            "period":period
+        }})
         subscriptionRemove(userId, subscribed)
 
         return {"status": "success", "userId": userId, "newSub": newSubscription}
