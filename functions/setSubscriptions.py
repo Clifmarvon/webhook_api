@@ -47,3 +47,17 @@ def subscriptionRemove(userId, subscribed):
     except Exception as e:
         print(f'Error in subscriptionRemove: {e}')
         return {"status": "error", "message": str(e)}
+
+
+def newUserSub(userId,newSubscription,period):
+    try:
+        timeData = fetch_time()
+        userRef.document(userId).update({"subscription": {
+               "subscribed":newSubscription,
+               "startingDate":timeData["current_time"],
+               "endingDate":timeData[period],
+               "period":period
+           }})
+        return {"status":'success'}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
